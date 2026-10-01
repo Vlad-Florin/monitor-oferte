@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+ENV/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug / temporare
+debug/
+*.log
+lidl_debug.json
+test_zgarcit.py
+debug_zgarcit.py
+
+# Date locale
+*.csv
+!rezultate.csv

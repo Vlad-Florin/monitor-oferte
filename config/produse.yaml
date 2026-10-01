@@ -1,0 +1,140 @@
+produse:
+  # ─── MOD 1: COMPORTAMENT IMPLICIT (regula "cu" ACTIVĂ) ───
+  # Bun pentru: ingrediente care pot apărea ca secundare
+  - nume: Piept de pui
+    sinonime:
+      - piept de pui
+      - piept pui
+      - piept dezosat
+    exclude_daca_contine:
+      - crenvursti
+      - crenwursti
+      - parizer
+      - sunca
+      - salam
+      - mezel
+      - nuggets
+      - snitel
+      - pate
+    # Nu setăm nimic → regula "cu" activă automat
+    # "Mazăre cu piept de pui" → EXCLUS ✓
+
+  # ─── MOD 2: REGULA "CU" DEZACTIVATĂ ───
+  # Bun pentru: produse simple, vrei să prinzi toate variantele
+  - nume: Paine
+    sinonime:
+      - paine
+      - paine alba
+      - paine neagra
+    exclude_daca_precedat_de: []  # ← dezactivează regula "cu"
+    exclude_daca_contine:
+      - prajitor
+      - rondele
+      - tuc
+      - crocant
+      - campionilor
+      - caini
+      - pisici
+    # "Pâine cu semințe" → INCLUS ✓
+
+  # ─── MOD 3: SINONIM CU "CU" ÎN EL ───
+  # Auto-detectat: regula "cu" nu se aplică pe acest sinonim
+  - nume: Paine cu seminte
+    sinonime:
+      - paine cu seminte
+      - paine cu susan
+      - paine cu mac
+    # Sinonimul conține "cu" → regula nu se aplică automat ✓
+
+  # ─── EXEMPLU COMPLET ───
+  - nume: Lapte
+    sinonime:
+      - lapte
+      - lapte de consum
+      - lapte proaspat
+      - lapte bio
+      - lapte uht
+    exclude_daca_contine:
+      - baton
+      - napolitana
+      - biscuiti
+      - ciocolata
+      - crema
+      - budinca
+      - prajitura
+      - tort
+      - inghetata
+      - cafea
+      - cappuccino
+      - milk shake
+      - milkshake
+      - shake
+      - iaurt
+      - branza
+      - cascaval
+      - prins  # "Lapte prins" — dacă vrei să-l excluzi
+
+  - nume: Iaurt grecesc
+    sinonime:
+      - iaurt grecesc
+      - iaurt grec
+    exclude_daca_contine:
+      - inghetata
+      - baton
+
+  - nume: Somon
+    sinonime:
+      - somon
+      - file somon
+      - somon norvegian
+    exclude_daca_contine:
+      - pisici
+      - caini
+      - animale
+      - hrana
+      - ton
+      - pate
+      - salata
+
+  - nume: Pepsi
+    sinonime:
+      - pepsi
+      - pepsi max
+      - pepsi twist
+    exclude_daca_contine:
+      - pahar
+      - set
+      - cadou
+
+  - nume: Caju
+    sinonime:
+      - caju
+    exclude_daca_contine:
+      - baton
+      - ciocolata
+      - glazura
+      - migdale
+      - mix        # ← esențial
+      - asortat
+      - merisoare  # ← esențial
+      - stafide
+      - biscuiti
+
+  - nume: Nuci
+    sinonime:
+      - nuci
+      - miez de nuca
+    exclude_daca_contine:
+      - iaurt
+      - baton
+      - tort
+      - glazura
+      - zmeura
+      - migdale
+      - stafide
+      - merisoare
+      - mix        # ← esențial
+      - cozonac
+      - chec
+      - ovaz
+      - ciocolata
