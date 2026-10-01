@@ -1,0 +1,51 @@
+name: Monitor Oferte
+
+# Când rulează:
+on:
+  # Programat: duminică la 07:00 UTC = 09:00 ora României (vara)
+  schedule:
+    - cron: '0 7 * * 0'
+  
+  # Manual: permite rulare din interfața GitHub
+  workflow_dispatch:
+
+# Permite workflow-ului să facă push înapoi în repo
+permissions:
+  contents: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout cod
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Instalează dependențe
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Rulează monitor oferte
+        run: |
+          python src/main.py
+
+      - name: Salvează rezultate în repo
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add rezultate.csv || true
+          if git diff --staged --quiet; then
+            echo "Nicio modificare în rezultate.csv"
+          else
+            git commit -m "Actualizare oferte - $(date +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
