@@ -201,8 +201,8 @@ def get_toate_produsele(max_pagini: Optional[int] = None) -> List[Dict[str, Any]
         return []
 
     print(f"[Zgârcit] Lungime HTML clean: {len(html1):,} caractere")
-    print(f"[Zgârcit] Conține 'identityKey': {'\"identityKey\":' in html1}")
-    print(f"[Zgârcit] Conține 'newPrice': {'newPrice' in html1}")
+    print(f"[Zgârcit] Conține identityKey: {'identityKey' in html1}")
+    print(f"[Zgârcit] Conține newPrice: {'newPrice' in html1}")
     print()
 
     total_pagini = _extrage_total_pagini(html1)
