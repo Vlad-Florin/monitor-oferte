@@ -1,6 +1,4 @@
 import sys
-from pathlib import Path
-import yaml
 
 def incarca_setari() -> dict:
     """Citește config/setari.yaml. Returnează dict cu valori implicite dacă lipsește."""
@@ -34,6 +32,9 @@ def incarca_setari() -> dict:
             for k, v in valori.items():
                 setari[sectiune].setdefault(k, v)
     return setari
+
+from pathlib import Path
+import yaml
 
 # Adăugăm rădăcina proiectului în path pentru importuri
 ROOT = Path(__file__).resolve().parent.parent
