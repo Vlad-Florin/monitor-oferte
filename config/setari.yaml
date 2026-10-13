@@ -1,0 +1,47 @@
+# ============================================================
+# SETĂRI MONITOR OFERTE
+# Modifică acest fișier oricând — nu necesită modificări de cod
+# ============================================================
+
+# ─── SURSE ───
+surse:
+  zgarcit:
+    activ: true
+    # null = toate paginile (445). Setează un număr (ex: 100) pentru test rapid
+    max_pagini: null
+    # Pauză între pagini (secunde) — crește dacă primești erori 429
+    pauza_min: 1.0
+    pauza_max: 2.5
+
+# ─── COMPORTAMENT ───
+comportament:
+  # Trimite notificare ntfy la final
+  trimite_notificare: true
+  
+  # Push automat pe GitHub după fiecare rulare
+  push_github: true
+  
+  # Salvează rezultatele în rezultate.csv
+  salveaza_csv: true
+  
+  # Limitează numărul de oferte afișate în notificare (0 = fără limită)
+  max_oferte_notificare: 0
+
+# ─── MATCHING ───
+matching:
+  # Pragul de similaritate fuzzy (0-100). 85 = recomandat
+  prag_fuzzy: 85
+  
+  # Dacă true, aplică regula "cu" (exclude "mazăre cu piept de pui")
+  # Poți dezactiva per produs cu exclude_daca_precedat_de: []
+  regula_cu_activa: true
+
+# ─── PROGRAMARE (pentru cron) ───
+programare:
+  # Zilele în care rulează automat (doar dacă folosești cron)
+  # Opțiuni: luni, marti, miercuri, joi, vineri, sambata, duminica
+  zile:
+    - duminica
+  
+  # Ora la care rulează (format HH:MM, 24h)
+  ora: "09:00"
