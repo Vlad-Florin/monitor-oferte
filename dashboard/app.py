@@ -128,7 +128,7 @@ else:
 
     st.dataframe(
         df_afisare,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Preț nou": st.column_config.NumberColumn(format="%.2f lei"),
