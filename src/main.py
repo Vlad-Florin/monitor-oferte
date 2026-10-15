@@ -19,7 +19,7 @@ from src.surse.zgarcit_scraper import get_toate_produsele
 from src.matching.matcher import incarca_produse, cauta_in_produse, deduplica_potriviri
 from src.notifications.ntfy import trimite_raport
 
-CALE_PRODUSE = ROOT / "config" / "produse.yaml"
+CALE_PRODUSE = ROOT / "config" / "reguli_matching.yaml"
 CALE_SETARI = ROOT / "config" / "setari.yaml"
 CALE_REZULTATE = ROOT / "rezultate.csv"
 
@@ -72,7 +72,7 @@ def salveaza_rezultate_csv(rezultate: list, cale: Path):
         if not exista:
             writer.writerow([
                 "data", "produs", "titlu_oferta", "pret_nou",
-                "pret_vechi", "magazin", "categorie", "card_necesar"
+                "pret_vechi", "magazin", "categorie", "card_necesar", "gramaj"
             ])
 
         data_acum = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -86,6 +86,7 @@ def salveaza_rezultate_csv(rezultate: list, cale: Path):
                 r.get("magazin", ""),
                 r.get("categorie", ""),
                 "DA" if r.get("card_necesar") else "NU",
+                r.get("quantity", ""),
             ])
 
     print(f"[Storage] Rezultate salvate în {cale}")

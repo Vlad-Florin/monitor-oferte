@@ -71,6 +71,7 @@ produse:
       - shake
       - iaurt
       - branza
+      - pufuleti     
       - cascaval
       - prins  # "Lapte prins" — dacă vrei să-l excluzi
 
@@ -138,3 +139,11 @@ produse:
       - chec
       - ovaz
       - ciocolata
+
+  - nume: Suflanta
+    sinonime:
+      - aer
+      - frunze
+      - tocator
+    exclude_daca_contine:
+  

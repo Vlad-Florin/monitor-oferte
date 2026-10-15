@@ -8,7 +8,7 @@ surse:
   zgarcit:
     activ: true
     # null = toate paginile (445). Setează un număr (ex: 100) pentru test rapid
-    max_pagini: null
+    max_pagini: 20
     # Pauză între pagini (secunde) — crește dacă primești erori 429
     pauza_min: 1.0
     pauza_max: 2.5
