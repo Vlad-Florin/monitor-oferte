@@ -20,15 +20,21 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main { padding-top: 1rem; }
-    .stMetric {
-        background-color: #f8f9fa;
-        padding: 10px;
+    [data-testid="stMetric"] {
+        background-color: var(--secondary-background-color);
+        padding: 12px;
         border-radius: 8px;
         border-left: 4px solid #ff4b4b;
     }
+    [data-testid="stMetric"] label {
+        color: var(--text-color) !important;
+    }
+    [data-testid="stMetricValue"] {
+        color: var(--text-color) !important;
+    }
     @media (max-width: 768px) {
         h1 { font-size: 1.5rem !important; }
-        .stMetric label { font-size: 0.8rem !important; }
+        [data-testid="stMetric"] label { font-size: 0.8rem !important; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -73,7 +79,15 @@ df["pret_vechi"] = pd.to_numeric(df["pret_vechi"], errors="coerce")
 
 # Sortăm descrescător după data
 df = df.sort_values("data", ascending=False).reset_index(drop=True)
-
+# Elimină toate NaN-urile din coloanele text (le transformă în string gol)
+for col in ["gramaj", "categorie", "card_necesar"]:
+    if col in df.columns:
+        df[col] = df[col].fillna("").astype(str).replace({"None": "", "nan": "", "NaN": ""})
+# Curăță valorile lipsă din coloanele text
+for col in df.select_dtypes(include="object").columns:
+    df[col] = df[col].fillna("").astype(str)
+    df[col] = df[col].replace({"None": "", "nan": "", "NaN": "", "null": ""})
+    
 # ─── SIDEBAR FILTRE ───
 st.sidebar.header("🔎 Filtre")
 
@@ -175,15 +189,16 @@ st.subheader("📋 Oferte găsite")
 if df_filtrat.empty:
     st.info("Nicio ofertă nu corespunde filtrelor selectate.")
 else:
-    # Pregătim datele pentru afișare
+    # Pregătim datele pentru afișare (fără coloana Categorie, care e mereu goală)
     df_afisare = df_filtrat[[
         "data", "produs", "titlu_oferta", "gramaj",
-        "pret_nou", "pret_vechi", "magazin", "card_necesar", "categorie"
+        "pret_nou", "pret_vechi", "magazin", "card_necesar"
     ]].copy()
     df_afisare.columns = [
         "Data", "Produs", "Ofertă", "Gramaj",
-        "Preț nou", "Preț vechi", "Magazin", "Card", "Categorie"
+        "Preț nou", "Preț vechi", "Magazin", "Card"
     ]
+    df_afisare = df_afisare.fillna("")  # ← elimină toate NaN-urile
     df_afisare = df_afisare.reset_index(drop=True)
 
     st.dataframe(

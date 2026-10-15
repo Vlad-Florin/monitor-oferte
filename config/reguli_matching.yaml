@@ -139,11 +139,17 @@ produse:
       - chec
       - ovaz
       - ciocolata
+      - pecan
 
   - nume: Suflanta
     sinonime:
       - aer
       - frunze
       - tocator
+      - tocare
     exclude_daca_contine:
+      - umflare
+      - turbina
+      - bambus
+      - bucatarie
   
