@@ -73,21 +73,18 @@ for col in ["pret_vechi", "categorie", "card_necesar", "gramaj"]:
     if col not in df.columns:
         df[col] = ""
 
-# Convertim coloanele numerice
+# Convertim coloanele numerice (valorile lipsă → NaN)
 df["pret_nou"] = pd.to_numeric(df["pret_nou"], errors="coerce")
 df["pret_vechi"] = pd.to_numeric(df["pret_vechi"], errors="coerce")
 
 # Sortăm descrescător după data
 df = df.sort_values("data", ascending=False).reset_index(drop=True)
-# Elimină toate NaN-urile din coloanele text (le transformă în string gol)
-for col in ["gramaj", "categorie", "card_necesar"]:
-    if col in df.columns:
-        df[col] = df[col].fillna("").astype(str).replace({"None": "", "nan": "", "NaN": ""})
-# Curăță valorile lipsă din coloanele text
+
+# Curăță coloanele text: NaN → string gol
 for col in df.select_dtypes(include="object").columns:
     df[col] = df[col].fillna("").astype(str)
     df[col] = df[col].replace({"None": "", "nan": "", "NaN": "", "null": ""})
-    
+
 # ─── SIDEBAR FILTRE ───
 st.sidebar.header("🔎 Filtre")
 
@@ -189,7 +186,7 @@ st.subheader("📋 Oferte găsite")
 if df_filtrat.empty:
     st.info("Nicio ofertă nu corespunde filtrelor selectate.")
 else:
-    # Pregătim datele pentru afișare (fără coloana Categorie, care e mereu goală)
+    # Pregătim datele pentru afișare
     df_afisare = df_filtrat[[
         "data", "produs", "titlu_oferta", "gramaj",
         "pret_nou", "pret_vechi", "magazin", "card_necesar"
@@ -198,19 +195,20 @@ else:
         "Data", "Produs", "Ofertă", "Gramaj",
         "Preț nou", "Preț vechi", "Magazin", "Card"
     ]
-    df_afisare = df_afisare.fillna("")  # ← elimină toate NaN-urile
-    df_afisare = df_afisare.reset_index(drop=True)
+
+    # Formatare manuală: prețurile devin string-uri frumoase, NaN → ""
+    df_afisare["Preț nou"] = df_afisare["Preț nou"].apply(
+        lambda x: f"{x:.2f} lei" if pd.notna(x) else ""
+    )
+    df_afisare["Preț vechi"] = df_afisare["Preț vechi"].apply(
+        lambda x: f"{x:.2f} lei" if pd.notna(x) else ""
+    )
+    df_afisare = df_afisare.fillna("").reset_index(drop=True)
 
     st.dataframe(
         df_afisare,
         width="stretch",
         hide_index=True,
-        column_config={
-            "Preț nou": st.column_config.NumberColumn(format="%.2f lei"),
-            "Preț vechi": st.column_config.NumberColumn(format="%.2f lei"),
-            "Gramaj": st.column_config.TextColumn(width="small"),
-            "Card": st.column_config.TextColumn(width="small"),
-        },
     )
 
 # ─── GRAFICE ───
